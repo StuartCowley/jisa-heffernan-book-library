@@ -1,0 +1,31 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -r dotenv/config index.js",
+    "pretest": "node scripts/create-database.js test",
+    "test": "mocha tests/**/*.test.js",
+    "posttest": "node scripts/drop-database.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LCHeffernan/book-library.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LCHeffernan/book-library/issues"
+  },
+  "homepage": "https://github.com/LCHeffernan/book-library#readme",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mocha": "^10.0.0",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.19",
+    "supertest": "^6.2.4"
+  }
+}
