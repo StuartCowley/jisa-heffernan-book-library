@@ -9,5 +9,6 @@ const readerRouter = express.Router();
 // const readerRouter = new Router();
 
 readerRouter.post('/', readerController.createReader);
+readerRouter.get('/', readerController.findAllReaders);
 
 module.exports = readerRouter
