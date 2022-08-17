@@ -57,7 +57,7 @@ describe('/readers', () => {
     });
 
     describe('GET /readers/:id', () => {
-      xit('gets readers record by id', async () => {
+      it('gets readers record by id', async () => {
         const reader = readers[0];
         const response = await request(app).get(`/readers/${reader.id}`);
 
