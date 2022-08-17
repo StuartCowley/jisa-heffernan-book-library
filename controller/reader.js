@@ -1,5 +1,38 @@
-const { query } = require("express");
+const Op = require('Sequelize').Op;
 const { Reader } = require("../src/models/index");
+
+//not 100% happy with this, want to refactor it.
+exports.findAllReaders = async (req, res) => {
+  const queryName = req.query.name;
+  const queryEmail = req.query.email;
+
+  try {
+    if (!queryName && !queryEmail) {
+      // if (!queryName) {
+      const findAllReadersInDb = await Reader.findAll();
+      console.log("all " + queryName);
+      res.status(200).json(findAllReadersInDb);
+    } else {
+      const [findReaderByCondition] = await Reader.findAll({
+        where: {
+          [Op.or]: [{ name: queryName }, { email: queryEmail }],
+        },
+      });
+      // const [findReaderByCondition] = await Reader.findAll({
+      //   where: { name: queryName },
+      // });
+      if (!findReaderByCondition) {
+        console.log("error");
+        res.status(404).json({ error: "The reader could not be found." });
+      } else {
+        console.log("reader by name " + queryName);
+        res.status(200).json(findReaderByCondition);
+      }
+    }
+  } catch (err) {
+    res.sendStatus(500);
+  }
+};
 
 exports.createReader = async (req, res) => {
   try {
@@ -7,33 +40,6 @@ exports.createReader = async (req, res) => {
     res.status(201).json(createReaderInDb);
   } catch (err) {
     res.status(500).json({ error: "Reader not created" });
-  }
-};
-
-//not 100% happy with this, want to refactor it.
-exports.findAllReaders = async (req, res) => {
-  const queryString = req.query.name;
-
-  try {
-    if (!queryString) {
-      const findAllReadersInDb = await Reader.findAll();
-      console.log("all " + queryString);
-      res.status(200).json(findAllReadersInDb);
-    } else {
-      console.log(queryString);
-      const [findReaderByCondition] = await Reader.findAll({
-        where: { name: queryString },
-      });
-      if (!findReaderByCondition) {
-        console.log("error");
-        res.status(404).json({ error: "The reader could not be found." });
-      } else {
-        console.log("reader by name " + queryString);
-        res.status(200).json(findReaderByCondition);
-      }
-    }
-  } catch (err) {
-    res.sendStatus(500);
   }
 };
 
@@ -65,12 +71,14 @@ exports.updateReaderDetails = async (req, res) => {
 };
 
 exports.deleteReader = async (req, res) => {
-  const {readerId } = req.params;
+  const { readerId } = req.params;
   const findReaderById = await Reader.findByPk(readerId);
-  if(!findReaderById){
-  res.status(404).json({ error: 'The reader could not be found.' });
+  if (!findReaderById) {
+    res.status(404).json({ error: "The reader could not be found." });
   } else {
-  const deleteReaderFromDb = await Reader.destroy({where: {id: readerId}});
-  res.status(204).json(deleteReaderFromDb);
+    const deleteReaderFromDb = await Reader.destroy({
+      where: { id: readerId },
+    });
+    res.status(204).json(deleteReaderFromDb);
   }
 };
