@@ -66,7 +66,7 @@ describe('/readers', () => {
         expect(response.body.email).to.equal(reader.email);
       });
 
-      xit('returns a 404 if the reader does not exist', async () => {
+      it('returns a 404 if the reader does not exist', async () => {
         const response = await request(app).get('/readers/12345');
 
         expect(response.status).to.equal(404);
