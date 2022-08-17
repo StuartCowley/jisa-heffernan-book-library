@@ -17,18 +17,18 @@ exports.findAllReaders = async (req, res) => {
   try {
     if (!queryString) {
       const findAllReadersInDb = await Reader.findAll();
-      console.log('all ' + queryString);
+      console.log("all " + queryString);
       res.status(200).json(findAllReadersInDb);
     } else {
       console.log(queryString);
       const [findReaderByCondition] = await Reader.findAll({
-        where: {name: queryString}
+        where: { name: queryString },
       });
       if (!findReaderByCondition) {
-        console.log('error');
+        console.log("error");
         res.status(404).json({ error: "The reader could not be found." });
       } else {
-        console.log('reader by name ' + queryString)
+        console.log("reader by name " + queryString);
         res.status(200).json(findReaderByCondition);
       }
     }
@@ -48,5 +48,29 @@ exports.findReaderById = async (req, res) => {
     }
   } catch (err) {
     res.sendStatus(500);
+  }
+};
+
+exports.updateReaderDetails = async (req, res) => {
+  const { readerId } = req.params;
+  const findReaderById = await Reader.findByPk(readerId);
+  if (!findReaderById) {
+    res.status(404).json({ error: "The reader could not be found." });
+  } else {
+    const updateReaderInDb = await Reader.update(req.body, {
+      where: { id: readerId },
+    });
+    res.status(200).json(updateReaderInDb);
+  }
+};
+
+exports.deleteReader = async (req, res) => {
+  const {readerId } = req.params;
+  const findReaderById = await Reader.findByPk(readerId);
+  if(!findReaderById){
+  res.status(404).json({ error: 'The reader could not be found.' });
+  } else {
+  const deleteReaderFromDb = await Reader.destroy({where: {id: readerId}});
+  res.status(204).json(deleteReaderFromDb);
   }
 };

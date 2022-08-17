@@ -75,7 +75,7 @@ describe('/readers', () => {
     });
 
     describe('PATCH /readers/:id', () => {
-      xit('updates readers email by id', async () => {
+      it('updates readers email by id', async () => {
         const reader = readers[0];
         const response = await request(app)
           .patch(`/readers/${reader.id}`)
@@ -88,7 +88,7 @@ describe('/readers', () => {
         expect(updatedReaderRecord.email).to.equal('miss_e_bennet@gmail.com');
       });
 
-      xit('returns a 404 if the reader does not exist', async () => {
+      it('returns a 404 if the reader does not exist', async () => {
         const response = await request(app)
           .patch('/readers/12345')
           .send({ email: 'some_new_email@gmail.com' });
@@ -99,7 +99,7 @@ describe('/readers', () => {
     });
 
     describe('DELETE /readers/:id', () => {
-      xit('deletes reader record by id', async () => {
+      it('deletes reader record by id', async () => {
         const reader = readers[0];
         const response = await request(app).delete(`/readers/${reader.id}`);
         const deletedReader = await Reader.findByPk(reader.id, { raw: true });
@@ -108,7 +108,7 @@ describe('/readers', () => {
         expect(deletedReader).to.equal(null);
       });
 
-      xit('returns a 404 if the reader does not exist', async () => {
+      it('returns a 404 if the reader does not exist', async () => {
         const response = await request(app).delete('/readers/12345');
         expect(response.status).to.equal(404);
         expect(response.body.error).to.equal('The reader could not be found.');
