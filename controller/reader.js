@@ -1,5 +1,14 @@
-const Op = require('Sequelize').Op;
+const Op = require("Sequelize").Op;
 const { Reader } = require("../src/models/index");
+
+exports.createReader = async (req, res) => {
+  try {
+    const createReaderInDb = await Reader.create(req.body);
+    res.status(201).json(createReaderInDb);
+  } catch (err) {
+    res.status(500).json({ error: "Reader not created" });
+  }
+};
 
 //not 100% happy with this, want to refactor it.
 exports.findAllReaders = async (req, res) => {
@@ -31,15 +40,6 @@ exports.findAllReaders = async (req, res) => {
     }
   } catch (err) {
     res.sendStatus(500);
-  }
-};
-
-exports.createReader = async (req, res) => {
-  try {
-    const createReaderInDb = await Reader.create(req.body);
-    res.status(201).json(createReaderInDb);
-  } catch (err) {
-    res.status(500).json({ error: "Reader not created" });
   }
 };
 
