@@ -30,6 +30,22 @@ describe("/books", () => {
         expect(newBookRecord.genre).to.equal("Fantasy");
         expect(newBookRecord.ISBN).to.equal("9780007525508");
       });
+
+      it("throws an error if empty title is given", async () => {
+        const response = await request(app).post("/books").send({
+          title: "",
+        });
+
+        expect(response.status).to.equal(500);
+      });
+
+      it("throws an error if empty author is given", async () => {
+        const response = await request(app).post("/books").send({
+          author: "",
+        });
+
+        expect(response.status).to.equal(500);
+      });
     });
   });
 

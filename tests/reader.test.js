@@ -28,6 +28,30 @@ describe("/readers", () => {
         expect(newReaderRecord.email).to.equal("future_ms_darcy@gmail.com");
         expect(newReaderRecord.password).to.equal("password1");
       });
+
+      it("throws an error if empty name is given", async () => {
+        const response = await request(app).post("/readers").send({
+          email: "",
+        });
+
+        expect(response.status).to.equal(500);
+      });
+
+      it("throws an error if invalid email is given", async () => {
+        const response = await request(app).post("/readers").send({
+          email: "myemail",
+        });
+
+        expect(response.status).to.equal(500);
+      });
+
+      it("throws an error if invalid password is given", async () => {
+        const response = await request(app).post("/readers").send({
+          password: "pass",
+        });
+
+        expect(response.status).to.equal(500);
+      });
     });
   });
 

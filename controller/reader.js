@@ -6,7 +6,7 @@ exports.createReader = async (req, res) => {
     const createReaderInDb = await Reader.create(req.body);
     res.status(201).json(createReaderInDb);
   } catch (err) {
-    res.status(500).json({ error: "Reader not created" });
+    res.status(500).json(err);
   }
 };
 
@@ -24,7 +24,7 @@ exports.findAllReaders = async (req, res) => {
     } else {
       const [findReaderByCondition] = await Reader.findAll({
         where: {
-          [Op.or]: [{ name: queryName }, { email: queryEmail }],
+          [Op.or]: [{ ...(queryName && {name: queryName}) }, { ...(queryEmail && {email: queryEmail}) }],
         },
       });
       // const [findReaderByCondition] = await Reader.findAll({
@@ -39,7 +39,8 @@ exports.findAllReaders = async (req, res) => {
       }
     }
   } catch (err) {
-    res.sendStatus(500);
+    console.log(err);
+    res.status(500).json(err);
   }
 };
 
@@ -53,32 +54,40 @@ exports.findReaderById = async (req, res) => {
       res.status(200).json(findReaderInDb);
     }
   } catch (err) {
-    res.sendStatus(500);
+    res.status(500).json(err);
   }
 };
 
 exports.updateReaderDetails = async (req, res) => {
   const { readerId } = req.params;
-  const findReaderById = await Reader.findByPk(readerId);
-  if (!findReaderById) {
-    res.status(404).json({ error: "The reader could not be found." });
-  } else {
-    const updateReaderInDb = await Reader.update(req.body, {
-      where: { id: readerId },
-    });
-    res.status(200).json(updateReaderInDb);
+  try {
+    const findReaderById = await Reader.findByPk(readerId);
+    if (!findReaderById) {
+      res.status(404).json({ error: "The reader could not be found." });
+    } else {
+      const updateReaderInDb = await Reader.update(req.body, {
+        where: { id: readerId },
+      });
+      res.status(200).json(updateReaderInDb);
+    }
+  } catch (err) {
+    res.status(500).json(err);
   }
 };
 
 exports.deleteReader = async (req, res) => {
   const { readerId } = req.params;
-  const findReaderById = await Reader.findByPk(readerId);
-  if (!findReaderById) {
-    res.status(404).json({ error: "The reader could not be found." });
-  } else {
-    const deleteReaderFromDb = await Reader.destroy({
-      where: { id: readerId },
-    });
-    res.status(204).json(deleteReaderFromDb);
+  try {
+    const findReaderById = await Reader.findByPk(readerId);
+    if (!findReaderById) {
+      res.status(404).json({ error: "The reader could not be found." });
+    } else {
+      const deleteReaderFromDb = await Reader.destroy({
+        where: { id: readerId },
+      });
+      res.status(204).json(deleteReaderFromDb);
+    }
+  } catch (err) {
+    res.status(500).json(err);
   }
 };

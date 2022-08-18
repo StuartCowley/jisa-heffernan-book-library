@@ -5,7 +5,7 @@ exports.createBook = async (req, res) => {
     const createBookInDb = await Book.create(req.body);
     res.status(201).json(createBookInDb);
   } catch (err) {
-    res.status(500).json({ error: "Book not created." });
+    res.status(500).json(err);
   }
 };
 
@@ -14,7 +14,7 @@ exports.findAllBooks = async (req, res) => {
     const findAllBooksInDb = await Book.findAll();
     res.status(200).json(findAllBooksInDb);
   } catch (err) {
-    res.sendStatus(500);
+    res.status(500).json(err);
   }
 };
 
@@ -28,7 +28,7 @@ exports.findBookById = async (req, res) => {
       res.status(200).json(findBookByIdInDb);
     }
   } catch (err) {
-    res.sendStatus(500);
+    res.status(500).json(err);
   }
 };
 
@@ -45,7 +45,7 @@ exports.updateBook = async (req, res) => {
       res.status(200).json(updateBookInDb);
     }
   } catch (err) {
-    res.sendStatus(500);
+    res.status(500).json(err);
   }
 };
 
@@ -62,6 +62,6 @@ exports.deleteBook = async (req, res) => {
       res.status(204).json(deleteBookInDb);
     }
   } catch (err) {
-    res.sendStatus(500);
+    res.status(500).json(err);
   }
 };
