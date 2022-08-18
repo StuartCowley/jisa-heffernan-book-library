@@ -8,3 +8,12 @@ exports.createBook = async (req, res) => {
     res.status(500).json({ error: "Book not created." });
   }
 };
+
+exports.findAllBooks = async (req, res) => {
+  try {
+    const findAllBooksInDb = await Book.findAll();
+    res.status(200).json(findAllBooksInDb);
+  } catch (err) {
+    res.sendStatus(500);
+  }
+};

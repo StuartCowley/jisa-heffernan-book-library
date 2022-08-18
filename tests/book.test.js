@@ -60,7 +60,7 @@ describe("/books", () => {
     });
 
     describe("GET /books", () => {
-      xit("gets all books records", async () => {
+      it("gets all books records", async () => {
         const response = await request(app).get("/books");
 
         expect(response.status).to.equal(200);
