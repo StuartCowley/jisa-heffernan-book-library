@@ -1,6 +1,8 @@
 const express = require("express");
-const BookController = require("../controller/book");
+const bookController = require("../controller/book");
 
-const BookRouter = express.Router();
+const bookRouter = express.Router();
 
-module.exports = BookRouter;
+bookRouter.post('/', bookController.createBook);
+
+module.exports = bookRouter;
