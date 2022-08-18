@@ -78,7 +78,7 @@ describe("/books", () => {
     });
 
     describe("GET /books/:id", () => {
-      xit("gets books record by id", async () => {
+      it("gets books record by id", async () => {
         const book = books[0];
         const response = await request(app).get(`/books/${book.id}`);
 
@@ -89,7 +89,7 @@ describe("/books", () => {
         expect(response.body.ISBN).to.equal(book.ISBN);
       });
 
-      xit("returns a 404 if the book does not exist", async () => {
+      it("returns a 404 if the book does not exist", async () => {
         const response = await request(app).get("/books/12345");
 
         expect(response.status).to.equal(404);

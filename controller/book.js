@@ -17,3 +17,17 @@ exports.findAllBooks = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
+exports.findBookById = async (req, res) => {
+  const { bookId } = req.params;
+  try {
+    const findBookByIdInDb = await Book.findByPk(bookId);
+    if (!findBookByIdInDb) {
+      res.status(404).json({ error: "The book could not be found." });
+    } else {
+      res.status(200).json(findBookByIdInDb);
+    }
+  } catch (err) {
+    res.sendStatus(500);
+  }
+};
