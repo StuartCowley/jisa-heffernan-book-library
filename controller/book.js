@@ -31,3 +31,20 @@ exports.findBookById = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
+exports.updateBook = async (req, res) => {
+  const { bookId } = req.params;
+  try {
+    const findBookByIdInDb = await Book.findByPk(bookId);
+    if (!findBookByIdInDb) {
+      res.status(404).json({ error: "The book could not be found." });
+    } else {
+      const updateBookInDb = await Book.update(req.body, {
+        where: { id: bookId },
+      });
+      res.status(200).json(updateBookInDb);
+    }
+  } catch (err) {
+    res.sendStatus(500);
+  }
+};

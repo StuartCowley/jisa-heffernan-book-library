@@ -98,7 +98,7 @@ describe("/books", () => {
     });
 
     describe("PATCH /books/:id", () => {
-      xit("updates books genre by id", async () => {
+      it("updates books genre by id", async () => {
         const book = books[0];
         const response = await request(app)
           .patch(`/books/${book.id}`)
@@ -111,7 +111,7 @@ describe("/books", () => {
         expect(updatedBookRecord.genre).to.equal("Fantasy Fiction");
       });
 
-      xit("returns a 404 if the book does not exist", async () => {
+      it("returns a 404 if the book does not exist", async () => {
         const response = await request(app)
           .patch("/books/12345")
           .send({ genre: "Science Fiction" });
