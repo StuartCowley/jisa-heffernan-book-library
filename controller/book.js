@@ -1,18 +1,18 @@
 const { Book } = require("../src/models/index");
+const crudHelper = require("../helper/CRUD-helper");
 
 exports.createBook = async (req, res) => {
-  try {
-    const createBookInDb = await Book.create(req.body);
-    res.status(201).json(createBookInDb);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  crudHelper.createEntries(req, res, Book);
 };
 
 exports.findAllBooks = async (req, res) => {
+  const queryString = req.query;
   try {
-    const findAllBooksInDb = await Book.findAll();
-    res.status(200).json(findAllBooksInDb);
+    if (Object.keys(queryString).length === 0) {
+      crudHelper.findAllEntries(res, Book);
+    } else {
+      crudHelper.findEntriesUsingQuery(queryString, res, Book);
+    }
   } catch (err) {
     res.status(500).json(err);
   }
@@ -20,48 +20,15 @@ exports.findAllBooks = async (req, res) => {
 
 exports.findBookById = async (req, res) => {
   const { bookId } = req.params;
-  try {
-    const findBookByIdInDb = await Book.findByPk(bookId);
-    if (!findBookByIdInDb) {
-      res.status(404).json({ error: "The book could not be found." });
-    } else {
-      res.status(200).json(findBookByIdInDb);
-    }
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  crudHelper.findEntryById(bookId, res, Book);
 };
 
 exports.updateBook = async (req, res) => {
   const { bookId } = req.params;
-  try {
-    const findBookByIdInDb = await Book.findByPk(bookId);
-    if (!findBookByIdInDb) {
-      res.status(404).json({ error: "The book could not be found." });
-    } else {
-      const updateBookInDb = await Book.update(req.body, {
-        where: { id: bookId },
-      });
-      res.status(200).json(updateBookInDb);
-    }
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  crudHelper.updateDetails(bookId, req, res, Book);
 };
 
 exports.deleteBook = async (req, res) => {
   const { bookId } = req.params;
-  try {
-    const findBookByIdInDb = await Book.findByPk(bookId);
-    if (!findBookByIdInDb) {
-      res.status(404).json({ error: "The book could not be found." });
-    } else {
-      const deleteBookInDb = await Book.destroy({
-        where: { id: bookId },
-      });
-      res.status(204).json(deleteBookInDb);
-    }
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  crudHelper.deleteEntry(bookId, res, Book);
 };

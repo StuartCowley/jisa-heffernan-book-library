@@ -2,12 +2,14 @@ module.exports = (connection, DataTypes) => {
   const schema = {
     name: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
             notEmpty: true,
         }
     },
     email: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
             notEmpty: true,
             isEmail: true,
@@ -15,6 +17,7 @@ module.exports = (connection, DataTypes) => {
     },
     password: {
         type: DataTypes.STRING,
+        allowNull:false,
         validate: {
             notEmpty: true,
             len: [8,99],
@@ -23,6 +26,5 @@ module.exports = (connection, DataTypes) => {
   };
 
   const ReaderModel = connection.define("Reader", schema);
-  // console.log(schema);
   return ReaderModel;
 };
