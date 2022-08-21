@@ -1,6 +1,6 @@
 const Op = require("Sequelize").Op;
 const { Reader } = require("../src/models/index");
-const crudHelper = require("../helper/CRUD-helper");
+const crudHelper = require("./helper");
 
 exports.createReader = async (req, res) => {
   crudHelper.createEntries(req, res, Reader);
@@ -35,15 +35,12 @@ exports.findAllReaders = async (req, res) => {
         },
       });
       if (!findReaderByCondition) {
-        console.log("error");
         res.status(404).json({ error: "The reader could not be found." });
       } else {
-        console.log("reader by name " + queryName);
         res.status(200).json(findReaderByCondition);
       }
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 };

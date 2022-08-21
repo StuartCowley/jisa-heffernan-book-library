@@ -1,5 +1,5 @@
 const { Book } = require("../src/models/index");
-const crudHelper = require("../helper/CRUD-helper");
+const crudHelper = require("./helper");
 
 exports.createBook = async (req, res) => {
   crudHelper.createEntries(req, res, Book);
