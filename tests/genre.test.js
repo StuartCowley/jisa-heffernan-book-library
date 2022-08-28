@@ -15,7 +15,7 @@ describe("/genres", () => {
     describe("POST /genres", () => {
       it("creates a new genre in the database", async () => {
         const response = await request(app).post("/genres").send({
-          author: "Science Fiction",
+          genre: "Science Fiction",
         });
         const newGenreRecord = await Genre.findByPk(response.body.id, {
           raw: true,
@@ -26,7 +26,7 @@ describe("/genres", () => {
         expect(newGenreRecord.genre).to.equal("Science Fiction");
       });
 
-      xit("throws an error if empty genre is given", async () => {
+      it("throws an error if empty genre is given", async () => {
         const response = await request(app).post("/genres").send({
           genre: "",
         });
@@ -48,13 +48,13 @@ describe("/genres", () => {
             genre: "Horror",
         }),
         Genre.create({
-            genre: "",
+            genre: "Fantasy",
         }),
       ]);
     });
 
     describe("GET /genres", () => {
-      xit("gets all genres records", async () => {
+      it("gets all genres records", async () => {
         const response = await request(app).get("/genres");
 
         expect(response.status).to.equal(200);
@@ -69,7 +69,7 @@ describe("/genres", () => {
     });
 
     describe("GET /genres/:id", () => {
-      xit("gets genres record by id", async () => {
+      it("gets genres record by id", async () => {
         const genre = genres[0];
         const response = await request(app).get(`/genres/${genre.id}`);
 
@@ -77,7 +77,7 @@ describe("/genres", () => {
         expect(response.body.genre).to.equal(genre.genre);
       });
 
-      xit("returns a 404 if the genre does not exist", async () => {
+      it("returns a 404 if the genre does not exist", async () => {
         const response = await request(app).get("/genres/12345");
 
         expect(response.status).to.equal(404);
@@ -86,7 +86,7 @@ describe("/genres", () => {
     });
 
     describe("PATCH /genres/:id", () => {
-      xit("updates genres author by id", async () => {
+      it("updates genres author by id", async () => {
         const genre = genres[0];
         const response = await request(app)
           .patch(`/genres/${genre.id}`)
@@ -99,7 +99,7 @@ describe("/genres", () => {
         expect(updatedGenreRecord.genre).to.equal("Sci Fi");
       });
 
-      xit("returns a 404 if the genre does not exist", async () => {
+      it("returns a 404 if the genre does not exist", async () => {
         const response = await request(app)
           .patch("/genres/12345")
           .send({ genre: "Sci Fi" });
@@ -110,7 +110,7 @@ describe("/genres", () => {
     });
 
     describe("DELETE /genres/:id", () => {
-      xit("deletes genre record by id", async () => {
+      it("deletes genre record by id", async () => {
         const genre = genres[0];
         const response = await request(app).delete(`/genres/${genre.id}`);
         const deletedGenre = await Genre.findByPk(genre.id, { raw: true });
@@ -119,7 +119,7 @@ describe("/genres", () => {
         expect(deletedGenre).to.equal(null);
       });
 
-      xit("returns a 404 if the genre does not exist", async () => {
+      it("returns a 404 if the genre does not exist", async () => {
         const response = await request(app).delete("/genres/12345");
         expect(response.status).to.equal(404);
         expect(response.body.error).to.equal("The entry could not be found.");
