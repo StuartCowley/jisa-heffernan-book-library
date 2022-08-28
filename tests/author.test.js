@@ -13,7 +13,7 @@ describe("/authors", () => {
 
   describe("with no records in the database", () => {
     describe("POST /authors", () => {
-      xit("creates a new author in the database", async () => {
+      it("creates a new author in the database", async () => {
         const response = await request(app).post("/authors").send({
           author: "J R R Tolkien",
         });
@@ -26,7 +26,7 @@ describe("/authors", () => {
         expect(newAuthorRecord.author).to.equal("J R R Tolkien");
       });
 
-      xit("throws an error if empty author is given", async () => {
+      it("throws an error if empty author is given", async () => {
         const response = await request(app).post("/authors").send({
           author: "",
         });
@@ -54,7 +54,7 @@ describe("/authors", () => {
     });
 
     describe("GET /authors", () => {
-      xit("gets all authors records", async () => {
+      it("gets all authors records", async () => {
         const response = await request(app).get("/authors");
 
         expect(response.status).to.equal(200);
@@ -69,7 +69,7 @@ describe("/authors", () => {
     });
 
     describe("GET /authors/:id", () => {
-      xit("gets authors record by id", async () => {
+      it("gets authors record by id", async () => {
         const author = authors[0];
         const response = await request(app).get(`/authors/${author.id}`);
 
@@ -77,7 +77,7 @@ describe("/authors", () => {
         expect(response.body.author).to.equal(author.author);
       });
 
-      xit("returns a 404 if the author does not exist", async () => {
+      it("returns a 404 if the author does not exist", async () => {
         const response = await request(app).get("/authors/12345");
 
         expect(response.status).to.equal(404);
@@ -86,7 +86,7 @@ describe("/authors", () => {
     });
 
     describe("PATCH /authors/:id", () => {
-      xit("updates authors author by id", async () => {
+      it("updates authors author by id", async () => {
         const author = authors[0];
         const response = await request(app)
           .patch(`/authors/${author.id}`)
@@ -99,7 +99,7 @@ describe("/authors", () => {
         expect(updatedAuthorRecord.author).to.equal("J. R. R. Tolkien");
       });
 
-      xit("returns a 404 if the author does not exist", async () => {
+      it("returns a 404 if the author does not exist", async () => {
         const response = await request(app)
           .patch("/authors/12345")
           .send({ author: "J. R. R. Tolkien" });
@@ -110,7 +110,7 @@ describe("/authors", () => {
     });
 
     describe("DELETE /authors/:id", () => {
-      xit("deletes author record by id", async () => {
+      it("deletes author record by id", async () => {
         const author = authors[0];
         const response = await request(app).delete(`/authors/${author.id}`);
         const deletedAuthor = await Author.findByPk(author.id, { raw: true });
@@ -119,7 +119,7 @@ describe("/authors", () => {
         expect(deletedAuthor).to.equal(null);
       });
 
-      xit("returns a 404 if the author does not exist", async () => {
+      it("returns a 404 if the author does not exist", async () => {
         const response = await request(app).delete("/authors/12345");
         expect(response.status).to.equal(404);
         expect(response.body.error).to.equal("The entry could not be found.");

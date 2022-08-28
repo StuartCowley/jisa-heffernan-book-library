@@ -13,7 +13,7 @@ describe("/genres", () => {
 
   describe("with no records in the database", () => {
     describe("POST /genres", () => {
-      xit("creates a new genre in the database", async () => {
+      it("creates a new genre in the database", async () => {
         const response = await request(app).post("/genres").send({
           author: "Science Fiction",
         });
