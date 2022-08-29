@@ -38,6 +38,7 @@ describe("/genres", () => {
 
   describe("with records in the database", () => {
     let genres;
+    const error404Message = "The genre could not be found."
 
     beforeEach(async () => {
       genres = await Promise.all([
@@ -81,7 +82,7 @@ describe("/genres", () => {
         const response = await request(app).get("/genres/12345");
 
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The entry could not be found.");
+        expect(response.body.error).to.equal(error404Message);
       });
     });
 
@@ -105,7 +106,7 @@ describe("/genres", () => {
           .send({ genre: "Sci Fi" });
 
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The entry could not be found.");
+        expect(response.body.error).to.equal(error404Message);
       });
     });
 
@@ -122,7 +123,7 @@ describe("/genres", () => {
       it("returns a 404 if the genre does not exist", async () => {
         const response = await request(app).delete("/genres/12345");
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The entry could not be found.");
+        expect(response.body.error).to.equal(error404Message);
       });
     });
   });

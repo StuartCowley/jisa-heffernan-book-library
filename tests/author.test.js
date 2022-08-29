@@ -38,6 +38,7 @@ describe("/authors", () => {
 
   describe("with records in the database", () => {
     let authors;
+    const error404Message = "The author could not be found."
 
     beforeEach(async () => {
       authors = await Promise.all([
@@ -81,7 +82,7 @@ describe("/authors", () => {
         const response = await request(app).get("/authors/12345");
 
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The entry could not be found.");
+        expect(response.body.error).to.equal(error404Message);
       });
     });
 
@@ -105,7 +106,7 @@ describe("/authors", () => {
           .send({ author: "J. R. R. Tolkien" });
 
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The entry could not be found.");
+        expect(response.body.error).to.equal(error404Message);
       });
     });
 
@@ -122,7 +123,7 @@ describe("/authors", () => {
       it("returns a 404 if the author does not exist", async () => {
         const response = await request(app).delete("/authors/12345");
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The entry could not be found.");
+        expect(response.body.error).to.equal(error404Message);
       });
     });
   });

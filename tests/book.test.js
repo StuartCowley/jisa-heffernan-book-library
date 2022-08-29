@@ -15,8 +15,6 @@ describe("/books", () => {
       it("creates a new book in the database", async () => {
         const response = await request(app).post("/books").send({
           title: "The Hobbit",
-          author: "J R R Tolkien",
-          genre: "Fantasy",
           ISBN: "9780007525508",
         });
         const newBookRecord = await Book.findByPk(response.body.id, {
@@ -26,8 +24,6 @@ describe("/books", () => {
         expect(response.status).to.equal(201);
         expect(response.body.title).to.equal("The Hobbit");
         expect(newBookRecord.title).to.equal("The Hobbit");
-        expect(newBookRecord.author).to.equal("J R R Tolkien");
-        expect(newBookRecord.genre).to.equal("Fantasy");
         expect(newBookRecord.ISBN).to.equal("9780007525508");
       });
 
@@ -51,25 +47,20 @@ describe("/books", () => {
 
   describe("with records in the database", () => {
     let books;
+    const error404Message = "The book could not be found.";
 
     beforeEach(async () => {
       books = await Promise.all([
         Book.create({
             title: "The Hobbit",
-            author: "J R R Tolkien",
-            genre: "Fantasy",
             ISBN: "9780007525508",
         }),
         Book.create({
             title: "1984",
-            author: "George Orwell",
-            genre: "Dystopian",
             ISBN: "9780140817744",
         }),
         Book.create({
             title: "20,000 Leagues Under the Sea",
-            author: "Jules Verne",
-            genre: "Science Fiction",
             ISBN: "9780195854695",
         }),
       ]);
@@ -86,8 +77,6 @@ describe("/books", () => {
           const expected = books.find((a) => a.id === book.id);
 
           expect(book.title).to.equal(expected.title);
-          expect(book.author).to.equal(expected.author);
-          expect(book.genre).to.equal(expected.genre);
           expect(book.ISBN).to.equal(expected.ISBN);
         });
       });
@@ -100,8 +89,6 @@ describe("/books", () => {
 
         expect(response.status).to.equal(200);
         expect(response.body.title).to.equal(book.title);
-        expect(response.body.author).to.equal(book.author);
-        expect(response.body.genre).to.equal(book.genre);
         expect(response.body.ISBN).to.equal(book.ISBN);
       });
 
@@ -109,31 +96,31 @@ describe("/books", () => {
         const response = await request(app).get("/books/12345");
 
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The entry could not be found.");
+        expect(response.body.error).to.equal(error404Message);
       });
     });
 
     describe("PATCH /books/:id", () => {
-      it("updates books genre by id", async () => {
+      it("updates books title by id", async () => {
         const book = books[0];
         const response = await request(app)
           .patch(`/books/${book.id}`)
-          .send({ genre: "Fantasy Fiction" });
+          .send({ title: "The Hobbit: An Unexpected Journey" });
         const updatedBookRecord = await Book.findByPk(book.id, {
           raw: true,
         });
 
         expect(response.status).to.equal(200);
-        expect(updatedBookRecord.genre).to.equal("Fantasy Fiction");
+        expect(updatedBookRecord.title).to.equal("The Hobbit: An Unexpected Journey");
       });
 
       it("returns a 404 if the book does not exist", async () => {
         const response = await request(app)
           .patch("/books/12345")
-          .send({ genre: "Science Fiction" });
+          .send({ title: "The Hobbit: An Unexpected Journey" });
 
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The entry could not be found.");
+        expect(response.body.error).to.equal(error404Message);
       });
     });
 
@@ -150,7 +137,7 @@ describe("/books", () => {
       it("returns a 404 if the book does not exist", async () => {
         const response = await request(app).delete("/books/12345");
         expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal("The entry could not be found.");
+        expect(response.body.error).to.equal(error404Message);
       });
     });
   });

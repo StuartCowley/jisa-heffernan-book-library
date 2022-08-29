@@ -1,25 +1,24 @@
-const { Genre } = require("../src/models/index");
 const crudHelper = require("./helper");
 
 exports.createGenre = async (req, res) => {
-    crudHelper.createEntries(req, res, Genre);
+    crudHelper.createEntries(req, res, 'genre');
 };
 
 exports.findAllGenres = async (_, res) => {
-    crudHelper.findAllEntries(res, Genre);
+    crudHelper.findAllEntries(res, 'genre');
 };
 
 exports.findGenreById = async (req, res) => {
     const { genreId } = req.params;
-    crudHelper.findEntryById(genreId, res, Genre);
+    crudHelper.findEntryById(genreId, res, 'genre');
 };
 
 exports.updateGenre = async (req, res) => {
     const { genreId } = req.params;
-    crudHelper.updateDetails(genreId, req, res, Genre);
+    crudHelper.updateDetails(genreId, req, res, 'genre');
 };
 
 exports.deleteGenre = async (req, res) => {
     const { genreId } = req.params;
-    crudHelper.deleteEntry(genreId, res, Genre);
+    crudHelper.deleteEntry(genreId, res, 'genre');
 };

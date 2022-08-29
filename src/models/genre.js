@@ -5,7 +5,14 @@ module.exports = (connection, DataTypes) => {
       allowNull: false,
       unique: "genre",
       validate: {
-        notEmpty: true,
+        notNull: {
+            args: [true],
+            msg: 'We need a genre',
+        },
+        notEmpty: {
+            args: [true],
+            msg: 'We need a genre',
+        },
       },
     },
   };

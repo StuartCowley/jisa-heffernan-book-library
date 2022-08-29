@@ -3,7 +3,7 @@ const { Reader } = require("../src/models/index");
 const crudHelper = require("./helper");
 
 exports.createReader = async (req, res) => {
-  crudHelper.createEntries(req, res, Reader);
+  crudHelper.createEntries(req, res, 'reader');
 };
 
 exports.findAllReaders = async (req, res) => {
@@ -12,20 +12,8 @@ exports.findAllReaders = async (req, res) => {
 
   try {
     if (!queryName && !queryEmail) {
-      // const findAllReadersInDb = await Reader.findAll();
-      // console.log("all " + queryName);
-      // res.status(200).json(findAllReadersInDb);
-      crudHelper.findAllEntries(res, Reader);
+      crudHelper.findAllEntries(res, 'reader');
     } else {
-      // Model.findAll({
-      //   where: Sequelize.and(
-      //     { name: 'a project' },
-      //     Sequelize.or(
-      //       { id: [1,2,3] },
-      //       { id: { gt: 10 } }
-      //     )
-      //   )
-      // })
       const [findReaderByCondition] = await Reader.findAll({
         where: {
           [Op.or]: [
@@ -47,15 +35,15 @@ exports.findAllReaders = async (req, res) => {
 
 exports.findReaderById = async (req, res) => {
   const { readerId } = req.params;
-  crudHelper.findEntryById(readerId, res, Reader);
+  crudHelper.findEntryById(readerId, res, 'reader');
 };
 
 exports.updateReaderDetails = async (req, res) => {
   const { readerId } = req.params;
-  crudHelper.updateDetails(readerId, req, res, Reader);
+  crudHelper.updateDetails(readerId, req, res, 'reader');
 };
 
 exports.deleteReader = async (req, res) => {
   const { readerId } = req.params;
-  crudHelper.deleteEntry(readerId, res, Reader);
+  crudHelper.deleteEntry(readerId, res, 'reader');
 };
