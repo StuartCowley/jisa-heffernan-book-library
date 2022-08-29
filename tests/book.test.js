@@ -52,16 +52,16 @@ describe("/books", () => {
     beforeEach(async () => {
       books = await Promise.all([
         Book.create({
-            title: "The Hobbit",
-            ISBN: "9780007525508",
+          title: "The Hobbit",
+          ISBN: "9780007525508",
         }),
         Book.create({
-            title: "1984",
-            ISBN: "9780140817744",
+          title: "1984",
+          ISBN: "9780140817744",
         }),
         Book.create({
-            title: "20,000 Leagues Under the Sea",
-            ISBN: "9780195854695",
+          title: "20,000 Leagues Under the Sea",
+          ISBN: "9780195854695",
         }),
       ]);
     });
@@ -111,7 +111,9 @@ describe("/books", () => {
         });
 
         expect(response.status).to.equal(200);
-        expect(updatedBookRecord.title).to.equal("The Hobbit: An Unexpected Journey");
+        expect(updatedBookRecord.title).to.equal(
+          "The Hobbit: An Unexpected Journey"
+        );
       });
 
       it("returns a 404 if the book does not exist", async () => {

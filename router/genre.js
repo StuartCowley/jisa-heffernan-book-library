@@ -9,5 +9,4 @@ genreRouter.get("/:genreId", genreController.findGenreById);
 genreRouter.patch("/:genreId", genreController.updateGenre);
 genreRouter.delete("/:genreId", genreController.deleteGenre);
 
-module.exports =  genreRouter;
-
+module.exports = genreRouter;

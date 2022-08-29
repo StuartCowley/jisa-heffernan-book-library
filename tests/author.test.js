@@ -4,7 +4,6 @@ const { Author } = require("../src/models/index");
 const app = require("../src/app");
 
 describe("/authors", () => {
-   
   before(async () => Author.sequelize.sync());
 
   beforeEach(async () => {
@@ -38,18 +37,18 @@ describe("/authors", () => {
 
   describe("with records in the database", () => {
     let authors;
-    const error404Message = "The author could not be found."
+    const error404Message = "The author could not be found.";
 
     beforeEach(async () => {
       authors = await Promise.all([
         Author.create({
-            author: "J R R Tolkien",
+          author: "J R R Tolkien",
         }),
         Author.create({
-            author: "George Orwell",
+          author: "George Orwell",
         }),
         Author.create({
-            author: "Jules Verne",
+          author: "Jules Verne",
         }),
       ]);
     });

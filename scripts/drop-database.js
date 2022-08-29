@@ -1,8 +1,8 @@
-const mysql = require('mysql2/promise');
-const path = require('path');
+const mysql = require("mysql2/promise");
+const path = require("path");
 
-require('dotenv').config({
-  path: path.join(__dirname, '../.env.test'),
+require("dotenv").config({
+  path: path.join(__dirname, "../.env.test"),
 });
 
 const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT } = process.env;
@@ -22,7 +22,7 @@ const tearDownDatabase = async () => {
     console.log(
       `Your environment variables might be wrong. Please double check .env file`
     );
-    console.log('Environment Variables are:', {
+    console.log("Environment Variables are:", {
       DB_PASSWORD,
       DB_NAME,
       DB_USER,

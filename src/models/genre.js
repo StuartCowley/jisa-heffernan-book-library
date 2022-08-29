@@ -6,12 +6,12 @@ module.exports = (connection, DataTypes) => {
       unique: "genre",
       validate: {
         notNull: {
-            args: [true],
-            msg: 'We need a genre',
+          args: [true],
+          msg: "We need a genre",
         },
         notEmpty: {
-            args: [true],
-            msg: 'We need a genre',
+          args: [true],
+          msg: "We need a genre",
         },
       },
     },

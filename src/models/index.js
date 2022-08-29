@@ -26,12 +26,12 @@ const setUpDatabase = () => {
   Book.belongsTo(Author);
 
   connection.sync({ alter: true });
-  
+
   return {
     Reader,
     Book,
     Author,
-    Genre
+    Genre,
   };
 };
 

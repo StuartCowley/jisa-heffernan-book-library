@@ -4,7 +4,6 @@ const { Genre } = require("../src/models/index");
 const app = require("../src/app");
 
 describe("/genres", () => {
-   
   before(async () => Genre.sequelize.sync());
 
   beforeEach(async () => {
@@ -38,18 +37,18 @@ describe("/genres", () => {
 
   describe("with records in the database", () => {
     let genres;
-    const error404Message = "The genre could not be found."
+    const error404Message = "The genre could not be found.";
 
     beforeEach(async () => {
       genres = await Promise.all([
         Genre.create({
-            genre: "Science Fiction",
+          genre: "Science Fiction",
         }),
         Genre.create({
-            genre: "Horror",
+          genre: "Horror",
         }),
         Genre.create({
-            genre: "Fantasy",
+          genre: "Fantasy",
         }),
       ]);
     });

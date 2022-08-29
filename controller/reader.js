@@ -3,7 +3,7 @@ const { Reader } = require("../src/models/index");
 const crudHelper = require("./helper");
 
 exports.createReader = async (req, res) => {
-  crudHelper.createEntries(req, res, 'reader');
+  crudHelper.createEntries(req, res, "reader");
 };
 
 exports.findAllReaders = async (req, res) => {
@@ -12,7 +12,7 @@ exports.findAllReaders = async (req, res) => {
 
   try {
     if (!queryName && !queryEmail) {
-      crudHelper.findAllEntries(res, 'reader');
+      crudHelper.findAllEntries(res, "reader");
     } else {
       const [findReaderByCondition] = await Reader.findAll({
         where: {
@@ -35,15 +35,15 @@ exports.findAllReaders = async (req, res) => {
 
 exports.findReaderById = async (req, res) => {
   const { readerId } = req.params;
-  crudHelper.findEntryById(readerId, res, 'reader');
+  crudHelper.findEntryById(readerId, res, "reader");
 };
 
 exports.updateReaderDetails = async (req, res) => {
   const { readerId } = req.params;
-  crudHelper.updateDetails(readerId, req, res, 'reader');
+  crudHelper.updateDetails(readerId, req, res, "reader");
 };
 
 exports.deleteReader = async (req, res) => {
   const { readerId } = req.params;
-  crudHelper.deleteEntry(readerId, res, 'reader');
+  crudHelper.deleteEntry(readerId, res, "reader");
 };
