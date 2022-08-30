@@ -1,30 +1,31 @@
-const { Reader, Book, Author, Genre } = require("../src/models/index");
+const Op = require('Sequelize').Op;
+const { Reader, Book, Author, Genre } = require('../src/models/index');
 
 const getModel = (model) => {
-  if (model === "reader") {
+  if (model === 'reader') {
     return Reader;
   }
-  if (model === "book") {
+  if (model === 'book') {
     return Book;
   }
-  if (model === "author") {
+  if (model === 'author') {
     return Author;
   }
-  if (model === "genre") {
+  if (model === 'genre') {
     return Genre;
   }
 };
 
 const getIncludes = (model) => {
-  if (model === "book") return { include: [Genre, Author] };
+  if (model === 'book') return { include: [Genre, Author] };
 
-  if (model === "genre" || model === "author") return { include: Book };
+  if (model === 'genre' || model === 'author') return { include: Book };
 
   return {};
 };
 
 const removePassword = (obj) => {
-  if (obj.hasOwnProperty("password")) {
+  if (hasOwnProperty.call(obj, 'password')) {
     delete obj.password;
   }
 
@@ -57,8 +58,31 @@ exports.findAllEntries = async (res, model) => {
 exports.findEntriesUsingQuery = async (queryString, res, model) => {
   const Model = getModel(model);
   const [findEntryByCondition] = await Model.findAll({ where: queryString });
-  const newValue = removePassword(findEntryByCondition.dataValues);
-  res.status(200).json(newValue);
+  const entryWithoutPassword = removePassword(findEntryByCondition.dataValues);
+  res.status(200).json(entryWithoutPassword);
+};
+
+exports.findEntryUsingMultipleQueries = async (
+  queryName,
+  queryEmail,
+  res,
+  model
+) => {
+  const Model = getModel(model);
+  const [findEntryByCondition] = await Model.findAll({
+    where: {
+      [Op.or]: [
+        { ...(queryName && { name: queryName }) },
+        { ...(queryEmail && { email: queryEmail }) },
+      ],
+    },
+  });
+  const entryWithoutPassword = removePassword(findEntryByCondition.dataValues);
+  if (!findEntryByCondition) {
+    res.status(404).json(get404Error(model));
+  } else {
+    res.status(200).json(entryWithoutPassword);
+  }
 };
 
 exports.findEntryById = async (entryId, res, model) => {
@@ -86,7 +110,7 @@ exports.updateDetails = async (entryId, req, res, model) => {
     if (!findEntryById) {
       res.status(404).json(get404Error(model));
     } else {
-      const updateEntryInDb = await Model.update(req.body, {
+      await Model.update(req.body, {
         where: { id: entryId },
       });
 
