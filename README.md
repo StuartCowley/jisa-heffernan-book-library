@@ -5,4 +5,4 @@ This was a backend project which involved using SQL2, Sequelize and express.js, 
 
 A book library is created using CRUD operations for Reader, Book, Author and Genre tables. 
 
-![Alt text](book-library/Images/Screenshot of relationship between models.png?raw=true "EER Diagram.")
+![Alt text](/book-library/Images/Screenshot of relationship between models.png?raw=true "EER Diagram.")
