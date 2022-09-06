@@ -29,5 +29,8 @@
     "nodemon": "^2.0.19",
     "sequelize": "^6.21.3",
     "supertest": "^6.2.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.0"
   }
 }

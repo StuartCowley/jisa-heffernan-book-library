@@ -1,5 +1,3 @@
-// utils/create-database.js
-// require the promise version of mysql2
 const mysql = require("mysql2/promise");
 
 // require path to handle file paths
@@ -16,13 +14,10 @@ require("dotenv").config({
   path: path.join(__dirname, envFile),
 });
 
-// destructure environment variables from process.env
 const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT } = process.env;
 
-// This asyncronous function will run before app
 const setUpDatabase = async () => {
   try {
-    // connect to the database
     const db = await mysql.createConnection({
       host: DB_HOST,
       user: DB_USER,
